@@ -3,7 +3,7 @@
 
 # 安装方式
 ```
-  cordova i cordova-plugin-ShareSDK --save --variable APPKEY=掌淘AppID --variable APPSECRET=掌淘AppSecret --variable QQ_APPID=QQ --variable QQ_APPKEY=QQ --variable WECHAT_APPID=微信AppID --variable WECHAT_APPSECRET=微信AppSecret
+  cordova plugin add https://github.com/toventang/cordova-plugin-ShareSDK --save --variable APPKEY=掌淘AppID --variable APPSECRET=掌淘AppSecret --variable QQ_APPID=QQ --variable QQ_APPKEY=QQ --variable WECHAT_APPID=微信AppID --variable WECHAT_APPSECRET=微信AppSecret
 ```
 
 # 可用的参数
