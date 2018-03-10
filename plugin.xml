@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-ShareSDK" version="0.1.0" 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>ShareSDK</name>
+    <preference name="APPKEY" />
+    <preference name="APPSECRET" />
+    <preference name="QQ_APPID" />
+    <preference name="QQ_APPKEY" />
+    <preference name="WECHAT_APPID" />
+    <preference name="WECHAT_APPSECRET" />
+    <js-module name="ShareSDK" src="www/ShareSDK.js">
+        <clobbers target="cordova.plugins.ShareSDK" />
+    </js-module>
+    <hook type="after_prepare" src="scripts/android-prepare.js" />
+    <hook type="after_plugin_add" src="scripts/android-install.js" />
+    <hook type="after_plugin_install" src="scripts/android-install.js" />
+    <hook type="before_plugin_rm" src="scripts/android-install.js" />
+    <hook type="before_plugin_uninstall" src="scripts/android-install.js" />
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="ShareSDK">
+                <param name="android-package" value="com.simpleel.cordova.sharesdk.ShareSDK" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.GET_TASKS" />
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="com.mob.tools.MobUIShell" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:configChanges="keyboardHidden|orientation|screenSize" android:windowSoftInputMode="stateHidden|adjustResize">
+                <!-- ShareSDK3.1.0版本之前才需要在MobUIShell下面注册此意图，3.1.0版本之后（包含3.1.0）不需要注册此intent-->
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                </intent-filter>
+            </activity>
+            <!--集成QQ分享-->
+            <activity android:name="cn.sharesdk.tencent.qq.ReceiveActivity" android:launchMode="singleTask" android:noHistory="true">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data android:scheme="tencent$QQ_APPID" />
+                </intent-filter>
+            </activity>
+            <!--集成微信分享-->
+            <activity android:name=".wxapi.WXEntryActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:configChanges="keyboardHidden|orientation|screenSize" android:exported="true" android:screenOrientation="portrait" />
+            <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
+            <meta-data android:name="Mob-AppKey" android:value="$APPKEY"/>
+            <meta-data android:name="Mob-AppSecret" android:value="$APPSECRET"/>
+        </config-file>
+        <!-- ShareSDK Config Xml -->
+        <edit-config file="assets/ShareSDK.xml" target="/DevInfor/ShareSDK" mode="overwrite">
+            <ShareSDK AppKey="$APPKEY" />
+        </edit-config>
+        <!-- ShareByAppClient标识是否使用QQ客户端分享，默认是false -->
+        <edit-config file="assets/ShareSDK.xml" target="/DevInfor/QQ" mode="overwrite">
+            <QQ Id="7" SortId="7" AppId="$QQ_APPID" AppKey="$QQ_APPKEY" ShareByAppClient="true" Enable="true" />
+        </edit-config>
+        <edit-config file="assets/ShareSDK.xml" target="/DevInfor/QZone" mode="overwrite">
+            <QZone Id="3" SortId="3" AppId="$QQ_APPID" AppKey="$QQ_APPKEY" ShareByAppClient="false" Enable="true" />
+        </edit-config>
+        <!-- Wechat微信和WechatMoments微信朋友圈的appid是一样的.微信测试的时候，微信测试需要先签名打包出apk,BypassApproval是绕过审核的标记，设置为true后AppId将被忽略，故不经过审核的应用也可以执行分享，但是仅限于分享文字和图片，不能分享其他类型.默认值为false。此外，微信收藏不支持此字段。-->
+        <edit-config file="assets/ShareSDK.xml" target="/DevInfor/Wechat" mode="overwrite">
+            <Wechat Id="4" SortId="4" AppId="$WECHAT_APPID" AppSecret="$WECHAT_APPSECRET" BypassApproval="false" Enable="true" />
+        </edit-config>
+        <edit-config file="assets/ShareSDK.xml" target="/DevInfor/WechatMoments" mode="overwrite">
+            <WechatMoments Id="5" SortId="5" AppId="$WECHAT_APPID" AppSecret="$WECHAT_APPSECRET" BypassApproval="false" Enable="true" />
+        </edit-config>
+        <source-file src="src/android/assets/ShareSDK.xml" target-dir="assets" />
+        <source-file src="src/android/ShareSDK.java" target-dir="src/com/simpleel/cordova/sharesdk" />
+        <!-- OneKeyShare resources -->
+        <source-file src="src/android/OneKeyShare/res/drawable/ssdk_oks_classic_platform_cell_back.xml" target-dir="res/drawable" />
+        <source-file src="src/android/OneKeyShare/res/drawable/ssdk_oks_classic_progressbar.xml" target-dir="res/drawable" />
+        <source-file src="src/android/OneKeyShare/res/drawable-hdpi/ssdk_oks_ptr_ptr.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/OneKeyShare/res/drawable-xhdpi/ssdk_oks_classic_wechat.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/OneKeyShare/res/drawable-xhdpi/ssdk_oks_classic_wechatfavorite.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/OneKeyShare/res/drawable-xhdpi/ssdk_oks_classic_wechatmoments.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/OneKeyShare/res/drawable-xhdpi/ssdk_oks_classic_qq.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/OneKeyShare/res/drawable-xhdpi/ssdk_oks_classic_qzone.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/OneKeyShare/res/values/ssdk_oks_color_drawables.xml" target-dir="res/values" />
+        <source-file src="src/android/OneKeyShare/res/values/ssdk_oks_strings.xml" target-dir="res/values" />
+        <source-file src="src/android/OneKeyShare/res/values/ssdk_strings.xml" target-dir="res/values" />
+        <!-- OneKeyShare sourcecode -->
+        <source-file src="src/android/OneKeyShare/src/cn/sharesdk" target-dir="src/cn" />
+        <!-- libs -->
+        <lib-file src="src/android/libs/MobCommons-2018.0201.2159.jar" target-dir="libs"/>
+        <lib-file src="src/android/libs/MobTools-2018.0208.1223.jar" target-dir="libs"/>
+        <lib-file src="src/android/libs/ShareSDK-Core-3.1.3.jar" target-dir="libs"/>
+        <lib-file src="src/android/libs/ShareSDK-QQ-3.1.3.jar" target-dir="libs"/>
+        <lib-file src="src/android/libs/ShareSDK-QZone-3.1.3.jar" target-dir="libs"/>
+        <lib-file src="src/android/libs/ShareSDK-Wechat-3.1.3.jar" target-dir="libs"/>
+        <lib-file src="src/android/libs/ShareSDK-Wechat-Core-3.1.3.jar" target-dir="libs"/>
+        <lib-file src="src/android/libs/ShareSDK-Wechat-Favorite-3.1.3.jar" target-dir="libs"/>
+        <lib-file src="src/android/libs/ShareSDK-Wechat-Moments-3.1.3.jar" target-dir="libs"/>
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="ShareSDK">
+                <param name="ios-package" value="ShareSDK" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/ShareSDK.m" />
+    </platform>
+</plugin>

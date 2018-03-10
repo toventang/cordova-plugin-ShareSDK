@@ -1,0 +1,19 @@
+{
+  "name": "cordova-plugin-sharesdk",
+  "version": "0.1.0",
+  "description": "掌淘ShareSDK",
+  "cordova": {
+    "id": "cordova-plugin-ShareSDK",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "toven (ttw130@gmail.com)",
+  "license": "MIT"
+}
