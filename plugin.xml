@@ -135,7 +135,7 @@
         </config-file>
         <config-file parent="/*" target="config.xml">
             <feature name="ShareSDK">
-                <param name="ios-package" value="ShareSDK" />
+                <param name="ios-package" value="MobCDVShareSDK" />
                 <param name="onload" value="true" />
             </feature>
             <preference name="APPKEY" value="$APPKEY"/>
@@ -172,7 +172,7 @@
         <!-- Wechat and QQ friend Zone and sina required frameworks -->
         <framework src="libsqlite3.tbd" />
 
-        <header-file src="src/ios/ShareSDK.h" />
-        <source-file src="src/ios/ShareSDK.m" />
+        <header-file src="src/ios/MobCDVShareSDK.h" />
+        <source-file src="src/ios/MobCDVShareSDK.m" />
     </platform>
 </plugin>

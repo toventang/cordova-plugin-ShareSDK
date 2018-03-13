@@ -1,7 +1,9 @@
-/********* ShareSDK.m Cordova Plugin Implementation *******/
-#import "ShareSDK.h"
+/********* MobCDVShareSDK.m Cordova Plugin Implementation *******/
+#import "MobCDVShareSDK.h"
 
-@implementation ShareSDK
+#import <ShareSDKUI/ShareSDK+SSUI.h>
+
+@implementation MobCDVShareSDK
 
 - (void)share:(CDVInvokedUrlCommand*)command
 {

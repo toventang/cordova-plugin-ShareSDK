@@ -8,7 +8,7 @@
 //微信SDK头文件
 #import "WXApi.h"
 
-@interface ShareSDK : CDVPlugin
+@interface MobCDVShareSDK : CDVPlugin
 
 - (void)share:(CDVInvokedUrlCommand*)command;
 
