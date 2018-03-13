@@ -1,20 +1,30 @@
 /********* ShareSDK.m Cordova Plugin Implementation *******/
-#import <ShareSDK.h>
+#import "ShareSDK.h"
 
 @implementation ShareSDK
 
 - (void)share:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* echo = [command.arguments objectAtIndex:0];
+    NSString* args = [command.arguments objectAtIndex:0];
 
-    if (echo != nil && [echo length] > 0) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
+    if (args != nil && [args length] > 0) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:args];
     } else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)pluginInitialize {
+    
+    NSString* appKey = [[self.commandDelegate settings] objectForKey:@"appkey"];
+    NSString* wechatAppId = [[self.commandDelegate settings] objectForKey:@"wechatappid"];
+    NSString* wechatAppSecret = [[self.commandDelegate settings] objectForKey:@"wechatappsecret"];
+    NSString* qqAppId = [[self.commandDelegate settings] objectForKey:@"qqappid"];
+    NSString* qqAppKey = [[self.commandDelegate settings] objectForKey:@"qqappkey"];
+
 }
 
 @end
